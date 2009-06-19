@@ -3,182 +3,182 @@ In order to calculate between grams
 As a user
 I can define each size of gram in a unit of milligrams
 
-Scenario: Find dag's unit
-Given that I have "1 dag"
+Scenario: Find dam's unit
+Given that I have "1 dam"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 10.0
 When I send message "long"
-Then it should write "1 decagrams"
+Then it should write "1 decametres"
 
-Scenario: Find hg's unit
-Given that I have "1 hg"
+Scenario: Find hm's unit
+Given that I have "1 hm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 100.0
 When I send message "long"
-Then it should write "1 hectograms"
+Then it should write "1 hectometres"
 
-Scenario: Find kg's unit
-Given that I have "1 kg"
+Scenario: Find km's unit
+Given that I have "1 km"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1000.0
 When I send message "long"
-Then it should write "1 kilograms"
+Then it should write "1 kilometres"
 
-Scenario: Find Mg's unit
-Given that I have "1 Mg"
+Scenario: Find Mm's unit
+Given that I have "1 Mm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1000000.0
 When I send message "long"
-Then it should write "1 megagrams"
+Then it should write "1 megametres"
 
-Scenario: Find Gg's unit
-Given that I have "1 Gg"
+Scenario: Find Gm's unit
+Given that I have "1 Gm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1000000000.0
 When I send message "long"
-Then it should write "1 gigagrams"
+Then it should write "1 gigametres"
 
-Scenario: Find Tg's unit
-Given that I have "1 Tg"
+Scenario: Find Tm's unit
+Given that I have "1 Tm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1000000000000.0
 When I send message "long"
-Then it should write "1 teragrams"
+Then it should write "1 terametres"
 
-Scenario: Find Pg's unit
-Given that I have "1 Pg"
+Scenario: Find Pm's unit
+Given that I have "1 Pm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e+15
 When I send message "long"
-Then it should write "1 petagrams"
+Then it should write "1 petametres"
 
-Scenario: Find Eg's unit
-Given that I have "1 Eg"
+Scenario: Find Em's unit
+Given that I have "1 Em"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e+18
 When I send message "long"
-Then it should write "1 exagrams"
+Then it should write "1 exametres"
 
-Scenario: Find Zg's unit
-Given that I have "1 Zg"
+Scenario: Find Zm's unit
+Given that I have "1 Zm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e+21
 When I send message "long"
-Then it should write "1 zettagrams"
+Then it should write "1 zettametres"
 
-Scenario: Find Yg's unit
-Given that I have "1 Yg"
+Scenario: Find Ym's unit
+Given that I have "1 Ym"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e+24
 When I send message "long"
-Then it should write "1 yottagrams"
+Then it should write "1 yottametres"
 
-Scenario: Find dg's unit
-Given that I have "1 dg"
+Scenario: Find dm's unit
+Given that I have "1 dm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 0.1
 When I send message "long"
-Then it should write "1 decigrams"
+Then it should write "1 decimetres"
 
-Scenario: Find cg's unit
-Given that I have "1 cg"
+Scenario: Find cm's unit
+Given that I have "1 cm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 0.01
 When I send message "long"
-Then it should write "1 centigrams"
+Then it should write "1 centimetres"
 
-Scenario: Find mg's unit
-Given that I have "1 mg"
+Scenario: Find mm's unit
+Given that I have "1 mm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 0.001
 When I send message "long"
-Then it should write "1 milligrams"
+Then it should write "1 millimetres"
 
-Scenario: Find mcg's unit
-Given that I have "1 mcg"
+Scenario: Find mcm's unit
+Given that I have "1 mcm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-06
 When I send message "long"
-Then it should write "1 micrograms"
+Then it should write "1 micrometres"
 
-Scenario: Find ng's unit
-Given that I have "1 ng"
+Scenario: Find nm's unit
+Given that I have "1 nm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-09
 When I send message "long"
-Then it should write "1 nanograms"
+Then it should write "1 nanometres"
 
-Scenario: Find pg's unit
-Given that I have "1 pg"
+Scenario: Find pm's unit
+Given that I have "1 pm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-12
 When I send message "long"
-Then it should write "1 picograms"
+Then it should write "1 picometres"
 
-Scenario: Find fg's unit
-Given that I have "1 fg"
+Scenario: Find fm's unit
+Given that I have "1 fm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-15
 When I send message "long"
-Then it should write "1 femtograms"
+Then it should write "1 femtometres"
 
-Scenario: Find ag's unit
-Given that I have "1 ag"
+Scenario: Find am's unit
+Given that I have "1 am"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-18
 When I send message "long"
-Then it should write "1 attograms"
+Then it should write "1 attometres"
 
-Scenario: Find zg's unit
-Given that I have "1 zg"
+Scenario: Find zm's unit
+Given that I have "1 zm"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-21
 When I send message "long"
-Then it should write "1 zeptograms"
+Then it should write "1 zeptometres"
 
-Scenario: Find yg's unit
-Given that I have "1 yg"
+Scenario: Find ym's unit
+Given that I have "1 ym"
 When I send message "base_unit"
-Then I should have "g"
+Then I should have "m"
 When I send message "value"
 Then I should have 1.0e-24
 When I send message "long"
-Then it should write "1 yoctograms"
+Then it should write "1 yoctometres"
