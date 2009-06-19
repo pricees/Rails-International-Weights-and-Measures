@@ -1,127 +1,70 @@
 # WeightsAndMeasures
 module WeightsAndMeasures
+  include WeightsAndMeasuresConstants
   attr_accessor :unit
   attr_writer :val
   class UndefinedUnitError < StandardError;end 
-  class Weight
+  module Base
+    include WeightsAndMeasuresConstants
     attr_reader :value, :parts
 
+    def unit; @unit ||= @parts.first; end
+    def face_value; @face_value ||= @parts.last; end
+    def base_unit; @base_unit ||= unit.to_s[-1,1]; end
+    def prefix; @prefix ||= unit.to_s[0, unit.to_s.length-1]; end
+    def long; to_s(:long); end
+  
     def initialize(value, parts)
       @value, @parts = value, parts
     end
 
-    def to_s
-      puts "#{@parts.last} #{@parts.first}"
+    def to_s(type = nil)
+      s = "#{face_value}" 
+      s << " #{unit}" if type.nil?
+      s << " #{MULTIPLE_NAMES.assoc(prefix.to_sym).last}#{UNITS.assoc(base_unit.to_sym).last.pluralize}" if type.eql?:long
+      s
     end
 
     def -(other)
-      Weight.new(@value - other.value, [ @parts.first, @parts.last - other.parts.last ])
+      new(@value - other.value, [ unit, face_value - other.face_value ])
     end
 
     def *(other)
-      if other.parts.first == @parts.first
-        Weight.new(@value * other.value, [ @parts.first, @parts.last * other.parts.last ])
+      other = SI.new(other, [ unit, other ]) unless other.is_a?SI
+      if other.parts.first == unit
+        SI.new(value * other.value, [ unit, face_value * other.face_value ])
       else
-        Weight.new(@value * other.value, [ @parts.first, @parts.last * (other.parts.last * other.value/@value) ])
+        SI.new(value * other.value, [ unit, face_value * (other.face_value * other.value/value) ])
       end
     end
 
     def +(other)
-      if other.parts.first == @parts.first
-        Weight.new(@value + other.value, [ @parts.first, @parts.last + other.parts.last ])
+      other = SI.new(other, [ unit, other ]) unless other.is_a?SI
+      if other.parts.first == unit
+        SI.new(value + other.value, [ unit, face_value + other.face_value ])
       else
-        Weight.new(@value + other.value, [ @parts.first, @parts.last + (other.parts.last * other.value/@value) ])
+        SI.new(value + other.value, [ unit, face_value + (other.face_value * other.value/value) ])
       end
     end
   end
 
-  def kg
-    @weight = Weight.new(self * 1E6, [ :kg, self ])
-  end
-
-  def hg
-    @weight = Weight.new(self * 1E5, [ :hg, self ])
-  end
-
-  def dg
-    @weight = Weight.new(self * 1E4, [ :dg, self ])
-  end
-
-  def g
-    @weight = Weight.new(self * 10E3, [ :g, self ])
-  end
-
-  def cg
-    @weight = Weight.new(self * 10E2, [ :cg, self ])
-  end
-
-  def mg
-    @weight = Weight.new(self, [ :mg, self ])
-  end
-
-  STRING = {
-    :ft => 'foot',
-    :in => 'inch',
-    :g => 'gram',
-    :kg => 'kilogram',
-    :km => 'kilometer',
-    :mg => 'milligram',
-    :lb => 'pound',
-    :mm => 'millimeter',
-    :oz => 'ounce',
-    :hm => 'hectometer',
-    :dm => 'decameter',
-  }
-
 # Covertions based off 1lb
-  
-  BASE = {
-    #NOTE: meters
-    :km => [ 1E6, :mm ],
-    :hm => [ 1E5, :mm ],
-    :dm => [ 1E4, :mm ],
-    :m => [ 1E3, :mm ],
-    :cm => [ 10, :mm ],
-    :mm => [ 1, :mm ],
-
-    #NOTE: grams
-    :kg => [ 1E6, :mg ],
-    :hg => [ 1E5, :mg ],
-    :dg => [ 1E4, :mg ],
-    :g => [ 1E3, :mg ],
-    :cg => [ 10, :mg ],
-    :mg => [ 1, :mg ],
-
-    #Pound
-    :lb => [ 16.0, :oz ],
-    :oz => [ 1.0, :oz ],
-    # Foot
-    :ft => [ 12.0, :in ],
-    :in => [ 1.0, :in ],
-
-    #ton
-    :ton => [ 2000*16.0, :oz]
-  }
-
-  CONVERSION = {
-    [ :mm, :in ] => 25.4,
-    [ :in, :mm ] => 25.4,
-    [ :mg, :oz ] => 3.52739619*10E-5,
-    [ :oz, :mg ] => 28349.5231,
-  }
 
   def method_missing(sym, *args, &block)
-    sym = sym.to_s.singularize.to_sym
+    sym = sym.to_s.singularize.to_s
     #
     # Define the measurement or weight
     # 1.lb
     # alias the pluralized form
     # 1.lbs => 1.lb
-    if BASE.keys.include? sym
+
+    bu= sym[-1,1]
+    p= sym[0, sym.length-1]
+    if UNITS.assoc(bu.to_sym)
+      multiplier = p.blank? ? 1 : BASE.rassoc(p.to_sym).first
       self.class.class_eval do
         define_method sym do
-          self.unit = sym
-          self
+          @si = SI.new(self * multiplier, [ sym.to_sym, self ])
         end
         send(:alias_method,sym.to_s.pluralize.to_sym, sym)
       end
@@ -130,52 +73,36 @@ module WeightsAndMeasures
 
     # Define to conversion
     # 1.lb.to_oz => 16
-    if sym.to_s =~ /to_(.*)/
-      raise UndefinedUnitError unless BASE.keys.include? $1.to_sym
-
-      self.class.class_eval do
-        define_method sym do
-          to_unit = $1.to_sym
-
-          if to_unit.eql? base.unit
-            return base 
-          end
-
-          a_dup = base.to_f/1.send(to_unit).base
-
-          unless base.unit.eql? 1.send(to_unit).base.unit
-            a_dup = a_dup / CONVERSION[[base.unit, 1.send(to_unit).base.unit]]
-          end
-
-          a_dup.send(to_unit)
-          a_dup
-
-        end
-      end
-      return send(sym)
-      #return base? ? send(sym) : base.send(sym)
-    end
+#    if sym.to_s =~ /to_(.*)/
+#      raise UndefinedUnitError unless BASE.keys.include? $1.to_sym
+#
+#      self.class.class_eval do
+#        define_method sym do
+#          to_unit = $1.to_sym
+#
+#          if to_unit.eql? base.unit
+#            return base 
+#          end
+#
+#          a_dup = base.to_f/1.send(to_unit).base
+#
+#          unless base.unit.eql? 1.send(to_unit).base.unit
+#            a_dup = a_dup / CONVERSION[[base.unit, 1.send(to_unit).base.unit]]
+#          end
+#
+#          a_dup.send(to_unit)
+#          a_dup
+#
+#        end
+#      end
+#      return send(sym)
+#      #return base? ? send(sym) : base.send(sym)
+#    end
 
     super
   end
 
-  def base?
-    unit && unit.eql?(BASE[unit].last)
+  class SI
+    include Base
   end
-
-  def base
-    return self if base?
-    a_dup = self * BASE[unit].first
-    a_dup.send(BASE[unit].last)
-    a_dup
-  end
-  
-  def +(another)
-    puts self, another
-  end
-
-  def tos
-    "#{self.to_f} #{STRING[unit].pluralize}"
-  end
-
 end
