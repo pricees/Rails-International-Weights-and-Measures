@@ -1,3 +1,19 @@
-Internal Weights and Measures Plugin for Rails.
+<h1>International Weights and Measures Plugin For Rails</h1>
 
-This is a few weeks off from being production ready
+<p>
+  This plugin allows you to use weight and measures in the same weight that one uses dates and times in rails.
+</p>
+
+Standard Syntax
+
+<code>n = 1.kg + 1.kg</code>
+<code>puts n </code> => <i>2.0 kg</i>
+<code>n += 1.mg</code>
+<code>puts n.to_s(:long)</code> => <i>2.000001 kilograms</i>
+<code>n *= 4</code>
+<code>puts n</code> => <i>8.000004 kg</i>
+<code>n /= 2</code>
+<code>puts n.to_s(:long)</code> => <i>4.000002 kilograms</i>
+<code>n -= 1.hg</code>
+<code>puts n</code> => <i>-0.099995999998 kg</i>
+

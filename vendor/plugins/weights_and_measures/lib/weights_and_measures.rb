@@ -60,7 +60,7 @@ module WeightsAndMeasures
 
     protected
     def metricize(num,unit)
-        Metric.new(num, [ unit, num ])
+        Metric.new(num * BASE.rassoc(prefix).first, [ unit, num ])
     end
   end
 

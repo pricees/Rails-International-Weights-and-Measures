@@ -83,6 +83,12 @@ Given that I have "10 kg"
 When I multiply it by 23
 Then the product should be "230 kg"
 
+Scenario: 15 kg + 3 kg * 200
+Given that I have "3 kg"
+When I multiply it by 200
+And I add it to "15 kg"
+Then the sum should be "615.0 kg"
+
 Scenario: 1 cg * 0.5
 Given that I have "1 cg"
 When I multiply it by 0.5
