@@ -6,14 +6,23 @@
 
 Standard Syntax
 
-<code>n = 1.kg + 1.kg</code>
-<code>puts n </code> => <i>2.0 kg</i>
-<code>n += 1.mg</code>
-<code>puts n.to_s(:long)</code> => <i>2.000001 kilograms</i>
-<code>n *= 4</code>
-<code>puts n</code> => <i>8.000004 kg</i>
-<code>n /= 2</code>
-<code>puts n.to_s(:long)</code> => <i>4.000002 kilograms</i>
-<code>n -= 1.hg</code>
-<code>puts n</code> => <i>-0.099995999998 kg</i>
+n = 1.kg + 1.kg
+puts n 
+	=> "2.0 kg"
+
+n += 1.mg
+puts n.to_s(:long)
+	 => "2.000001 kilograms"
+
+n *= 4
+puts n 
+	=> "8.000004 kg"
+
+n /= 2
+puts n.to_s(:long)
+	=> "4.000002 kilograms"
+
+n -= 1.hg
+puts n
+	=> "-0.099995999998 kg"
 
