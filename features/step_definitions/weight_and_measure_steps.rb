@@ -30,7 +30,44 @@ When /^I add it to "([^\"]*)"$/ do |arg1|
   @res = @num_1 + to_metric(arg1)
 end
 
+When /^I subtract from it ([^\"]*)$/ do |arg1|
+  @res = @num_1 - to_numeric(arg1)
+end
+
+When /^I subtract from it "([^\"]*)"$/ do |arg1|
+  @res = @num_1 - to_metric(arg1)
+end
+
 Then /^the sum should be "([^\"]*)"$/ do |arg1|
   @res.to_s.should ==arg1
 end
+
+Then /^the difference should be "([^\"]*)"$/ do |arg1|
+  @res.to_s.should ==arg1
+end
+
+When /^I multiply it by ([^\"]*)$/ do |arg1|
+  @res = @num_1 * to_numeric(arg1)
+end
+
+When /^I multiply it by "([^\"]*)"$/ do |arg1|
+  @res = @num_1 * to_metric(arg1)
+end
+
+Then /^the product should be "([^\"]*)"$/ do |arg1|
+  @res.to_s.should ==arg1
+end
+
+When /^I divide it by "([^\"]*)"$/ do |arg1|
+  @res = @num_1 / to_metric(arg1)
+end
+
+When /^I divide it by ([^\"]*)$/ do |arg1|
+  @res = @num_1 / to_numeric(arg1)
+end
+
+Then /^the quotient should be "([^\"]*)"$/ do |arg1|
+  @res.to_s.should ==arg1
+end
+
 

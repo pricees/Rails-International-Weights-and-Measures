@@ -1,9 +1,8 @@
 # WeightsAndMeasures
 module WeightsAndMeasures
   include WeightsAndMeasuresConstants
-  attr_accessor :unit
-  attr_writer :val
   class UndefinedUnitError < StandardError;end 
+
   module Base
     include WeightsAndMeasuresConstants
     attr_reader :value, :parts
@@ -33,22 +32,35 @@ module WeightsAndMeasures
       s
     end
 
+    def +(other)
+      other = metricize(other,unit) unless other.is_a?Metric
+      Metric.new(value + other.value, [ unit, ((value + other.value)/ BASE.rassoc(prefix).first) ])
+    end
+
     def -(other)
-      new(@value - other.value, [ unit, face_value - other.face_value ])
+      other = metricize(other,unit) unless other.is_a?Metric
+      Metric.new(value - other.value, [ unit, ((value - other.value)/ BASE.rassoc(prefix).first) ])
     end
 
     def *(other)
-      other = Metric.new(other, [ unit, other ]) unless other.is_a?Metric
-      if other.parts.first == unit
-        Metric.new(value * other.value, [ unit, face_value * other.face_value ])
-      else
-        Metric.new(value * other.value, [ unit, face_value * (other.face_value * other.value/value) ])
+      other = metricize(other,unit) unless other.is_a?Metric
+      if unit == other.unit
+        return Metric.new(((value * other.value) / BASE.rassoc(prefix).first), [ unit, face_value * other.face_value ])
       end
+      Metric.new(value * other.value, [ unit, ((value * other.value)/ BASE.rassoc(prefix).first) ])
     end
 
-    def +(other)
-      other = Metric.new(other, [ unit, other ]) unless other.is_a?Metric
-      Metric.new(value + other.value, [ unit, ((value + other.value)/ BASE.rassoc(prefix).first) ])
+    def /(other)
+      other = metricize(other,unit) unless other.is_a?Metric
+      if unit == other.unit
+        return Metric.new(((value.to_f / other.value) / BASE.rassoc(prefix).first), [ unit, face_value.to_f / other.face_value ])
+      end
+      Metric.new(value.to_f / other.value, [ unit, ((value.to_f / other.value)/ BASE.rassoc(prefix).first) ])
+    end
+
+    protected
+    def metricize(num,unit)
+        Metric.new(num, [ unit, num ])
     end
   end
 
