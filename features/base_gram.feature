@@ -39,6 +39,15 @@ Then I should have 1000000.0
 When I send message "long"
 Then it should write "1 megagrams"
 
+Scenario: Find g's unit
+Given that I have "1 g"
+When I send message "base_unit"
+Then I should have "g"
+When I send message "value"
+Then I should have 1.0
+When I send message "long"
+Then it should write "1 grams"
+
 Scenario: Find Gg's unit
 Given that I have "1 Gg"
 When I send message "base_unit"

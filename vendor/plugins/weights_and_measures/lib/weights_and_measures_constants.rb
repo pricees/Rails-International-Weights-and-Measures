@@ -24,7 +24,8 @@ module WeightsAndMeasuresConstants
     [ :f, :femto ],
     [ :a, :atto ],
     [ :z, :zepto ],
-    [ :y, :yocto ]
+    [ :y, :yocto ],
+    [ '', nil ]
   ]
 
   BASE = [
@@ -37,6 +38,8 @@ module WeightsAndMeasuresConstants
     [ 1e15, :P ],
     [ 1e18, :E ],
     [ 1e21, :Z ],
+    [ 1, nil ],
+    [ 1, '' ],
     [ 1e24, :Y ],
     [ 1e-1, :d ],
     [ 1e-2, :c ],

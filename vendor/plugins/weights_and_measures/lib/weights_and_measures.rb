@@ -10,9 +10,17 @@ module WeightsAndMeasures
 
     def unit; @unit ||= @parts.first; end
     def face_value; @face_value ||= @parts.last; end
-    def base_unit; @base_unit ||= unit.to_s[-1,1]; end
-    def prefix; @prefix ||= unit.to_s[0, unit.to_s.length-1]; end
     def long; to_s(:long); end
+
+    def base_unit
+      res = unit.to_s[-1,1]
+      @base_unit = res.blank? ? res : res.to_sym
+    end
+
+    def prefix
+      res = unit.to_s[0, unit.to_s.length-1]
+      @prefix = res.blank? ? res : res.to_sym
+    end
   
     def initialize(value, parts)
       @value, @parts = value, parts
@@ -21,7 +29,7 @@ module WeightsAndMeasures
     def to_s(type = nil)
       s = "#{face_value}" 
       s << " #{unit}" if type.nil?
-      s << " #{MULTIPLE_NAMES.assoc(prefix.to_sym).last}#{UNITS.assoc(base_unit.to_sym).last.pluralize}" if type.eql?:long
+      s << " #{MULTIPLE_NAMES.assoc(prefix).last}#{UNITS.assoc(base_unit).last.pluralize}" if type.eql?:long
       s
     end
 
@@ -30,21 +38,17 @@ module WeightsAndMeasures
     end
 
     def *(other)
-      other = SI.new(other, [ unit, other ]) unless other.is_a?SI
+      other = Metric.new(other, [ unit, other ]) unless other.is_a?Metric
       if other.parts.first == unit
-        SI.new(value * other.value, [ unit, face_value * other.face_value ])
+        Metric.new(value * other.value, [ unit, face_value * other.face_value ])
       else
-        SI.new(value * other.value, [ unit, face_value * (other.face_value * other.value/value) ])
+        Metric.new(value * other.value, [ unit, face_value * (other.face_value * other.value/value) ])
       end
     end
 
     def +(other)
-      other = SI.new(other, [ unit, other ]) unless other.is_a?SI
-      if other.parts.first == unit
-        SI.new(value + other.value, [ unit, face_value + other.face_value ])
-      else
-        SI.new(value + other.value, [ unit, face_value + (other.face_value * other.value/value) ])
-      end
+      other = Metric.new(other, [ unit, other ]) unless other.is_a?Metric
+      Metric.new(value + other.value, [ unit, ((value + other.value)/ BASE.rassoc(prefix).first) ])
     end
   end
 
@@ -64,7 +68,7 @@ module WeightsAndMeasures
       multiplier = p.blank? ? 1 : BASE.rassoc(p.to_sym).first
       self.class.class_eval do
         define_method sym do
-          @si = SI.new(self * multiplier, [ sym.to_sym, self ])
+          @metric = Metric.new(self * multiplier, [ sym.to_sym, self ])
         end
         send(:alias_method,sym.to_s.pluralize.to_sym, sym)
       end
@@ -87,7 +91,7 @@ module WeightsAndMeasures
 #          a_dup = base.to_f/1.send(to_unit).base
 #
 #          unless base.unit.eql? 1.send(to_unit).base.unit
-#            a_dup = a_dup / CONVERSION[[base.unit, 1.send(to_unit).base.unit]]
+#            a_dup = a_dup / CONVERMetricON[[base.unit, 1.send(to_unit).base.unit]]
 #          end
 #
 #          a_dup.send(to_unit)
@@ -102,7 +106,7 @@ module WeightsAndMeasures
     super
   end
 
-  class SI
+  class Metric
     include Base
   end
 end

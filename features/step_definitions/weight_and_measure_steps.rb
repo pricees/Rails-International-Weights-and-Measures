@@ -1,15 +1,13 @@
 Given /^that I have "([^\"]*)"$/ do |arg1|
-  num, unit = arg1.split
-  num = (num =~ /\./) ? num.to_f : num.to_i
-  @i = num.send(unit.to_sym)
+  @num_1 = to_metric(arg1)
 end
 
 When /^I send message "([^\"]*)"$/ do |message|
-  @res = @i.send(message)
+  @res = @num_1.send(message)
 end
 
 Then /^I should have "([^\"]*)"$/ do |arg1|
-  @res.should ==arg1
+  @res.to_s.should ==arg1
 end
 
 Then /^I should have :([^\"]*)$/ do |arg1|
@@ -17,10 +15,22 @@ Then /^I should have :([^\"]*)$/ do |arg1|
 end
 
 Then /^I should have ([^\"]*)$/ do |arg1|
-  @res.should ==arg1.to_f
+  @res.should ==to_numeric(arg1)
 end
 
 Then /^it should write "([^\"]*)"$/ do |arg1|
+  @res.to_s.should ==arg1
+end
+
+When /^I add it to ([^\"]*)$/ do |arg1|
+  @res = @num_1 + to_numeric(arg1)
+end
+
+When /^I add it to "([^\"]*)"$/ do |arg1|
+  @res = @num_1 + to_metric(arg1)
+end
+
+Then /^the sum should be "([^\"]*)"$/ do |arg1|
   @res.to_s.should ==arg1
 end
 
