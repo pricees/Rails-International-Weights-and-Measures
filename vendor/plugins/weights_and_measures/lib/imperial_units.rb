@@ -59,6 +59,7 @@ module ImperialUnits
   def fur
     Metric.new(self * 220.yd.value, [ :fur, self ])
   end
+  [ :furs, :furlong, :furlongs ].each { |m| alias_method m, :fur }
 
   def mi
     Metric.new(self * 1760.yd.value, [ :mi, self ])
@@ -81,6 +82,7 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value - other.value), [ unit, face_value - other.face_value ])
     end
+    Metric.new((value - other.value), [ unit, face_value - (other.value/(value.to_f/face_value)) ])
   end
 
   def *(other)
@@ -88,13 +90,7 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value * other.value), [ unit, face_value * other.face_value ])
     end
-  end
-
-  def *(other)
-    other = metricize(other,unit) unless other.is_a?Metric
-    if unit == other.unit
-      return Metric.new((value * other.value), [ unit, face_value * other.face_value ])
-    end
+    Metric.new((value * other.value), [ unit, face_value * (other.value/(value.to_f/face_value)) ])
   end
 
   def /(other)
@@ -102,6 +98,7 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value / other.value), [ unit, face_value / other.face_value ])
     end
+    Metric.new((value / other.value), [ unit, face_value / (other.value/(value.to_f/face_value)) ])
   end
 
   class Metric
