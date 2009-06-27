@@ -5,6 +5,7 @@ module ImperialUnits
     [ :ft, 'foot' ],
     [ :yd, 'yard' ],
     [ :mi, 'mile' ],
+    [ :fur, 'furlong' ],
   ]
 
   BASE = [
@@ -12,23 +13,59 @@ module ImperialUnits
     [ :ft, :in ],
     [ :yd, :in ],
     [ :mi, :in ],
+    [ :R, :in ], 
+    [ :fur, :in],
   ]
 
 
   def in
-    @metric = Metric.new(self, [ :in, self ])
+    Metric.new(self, [ :in, self ])
   end
 
   def ft
-    @metric = Metric.new(self * 12.in.value, [ :ft, self ])
+    Metric.new(self * 12.in.value, [ :ft, self ])
+  end
+
+  def link
+    Metric.new(self * 0.66.ft.value, [ :link, self ])
+  end
+  alias_method :R, :link
+  alias_method :perch, :link
+
+  def pole
+    Metric.new(self * 25.link.value, [ :pole, self ])
+  end
+
+  def chain
+    Metric.new(self * 4.pole.value, [ :pole, self ])
   end
 
   def yd 
-    @metric = Metric.new(self * 3.ft.value, [ :yd, self ])
+    Metric.new(self * 3.ft.value, [ :yd, self ])
+  end
+
+  def fathom
+    Metric.new(self * 6.ft.value, [ :fathom, self ])  #Adopted in 1970, before that it was 6.08ft (1/1000 of a naut mi)
+  end
+
+  def cable
+    Metric.new(self * 608.ft.value, [ :cables, self ]) #100 pre-1970 fathoms
+  end
+
+  def nautical_mile
+    Metric.new(self * 10.cable.value, [ :nautical_mile, self ])
+  end
+
+  def fur
+    Metric.new(self * 220.yd.value, [ :fur, self ])
   end
 
   def mi
-    @metric = Metric.new(self * 1760.yd.value, [ :mi, self ])
+    Metric.new(self * 1760.yd.value, [ :mi, self ])
+  end
+
+  def league
+    Metric.new(self * 3.my.value, [ :league, self ])
   end
 
   def +(other)
@@ -72,14 +109,10 @@ module ImperialUnits
 
     attr_reader :value, :parts
 
-    def base_unit
-      BASE.assoc(unit).try(:last)
-    end
-
-    def unit; @unit ||= @parts.first; end
-    def face_value; @face_value ||= @parts.last; end
+    def unit; @parts.first; end
+    def base_unit; BASE.assoc(unit).try(:last); end
+    def face_value; @parts.last; end
     def long; to_s(:long); end
-
     def to_param; @value; end
 
     def initialize(value, parts)

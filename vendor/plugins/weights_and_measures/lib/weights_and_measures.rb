@@ -73,7 +73,7 @@ module WeightsAndMeasures
       multiplier = p.blank? ? 1 : StandardUnits::BASE.rassoc(p.to_sym).first
       self.class.class_eval do
         define_method sym do
-          @metric = Metric.new(self * multiplier, [ sym.to_sym, self ])
+          Metric.new(self * multiplier, [ sym.to_sym, self ])
         end
         send(:alias_method,sym.to_s.pluralize.to_sym, sym)
       end
@@ -116,10 +116,9 @@ module WeightsAndMeasures
 
     attr_reader :value, :parts
 
-    def unit; @unit ||= @parts.first; end
-    def face_value; @face_value ||= @parts.last; end
+    def unit; @parts.first; end
+    def face_value; @parts.last; end
     def long; to_s(:long); end
-
     def to_param; @value; end
 
     def initialize(value, parts)
