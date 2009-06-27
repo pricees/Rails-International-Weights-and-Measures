@@ -1,7 +1,7 @@
-module WeightsAndMeasuresConstants
+module StandardUnits
   UNITS = [
     [ :g, 'gram' ],
-    [ :m, 'metre' ]
+    [ :m, 'metre' ],
   ]
 
   MULTIPLE_NAMES = [
