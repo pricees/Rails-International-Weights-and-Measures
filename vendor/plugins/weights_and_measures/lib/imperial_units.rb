@@ -49,18 +49,18 @@ module ImperialUnits
 
   # Mass 
 
-  def grain
-    Metric.new(self * (1.oz/437.5), [ :grain, self ])
-  end
-
-  def drachm 
-    Metric.new(self * (1.oz/16.0), [ :drachm, self ])
-  end
-
   def oz
     Metric.new(self, [ :oz, self ])
   end
   %w(ounce ounces).each { |m| alias_method m.to_sym, :oz }
+
+  def grain
+    Metric.new(self * (1.oz/437.5).value, [ :grain, self ])
+  end
+
+  def drachm 
+    Metric.new(self * (1.oz/16.0).value, [ :drachm, self ])
+  end
 
   def lb
     Metric.new(self * 16.oz.value, [ :lb, self ])
