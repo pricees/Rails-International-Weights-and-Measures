@@ -1,7 +1,7 @@
-Feature: Grams Base
-In order to calculate between grams
+Feature: Metre Base
+In order to calculate between metres
 As a user
-I can define each size of gram in a unit of milligrams
+I can define each size of metre in a unit of millimetres
 
 Scenario: Find dam's unit
 Given that I have "1 dam"

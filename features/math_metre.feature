@@ -1,7 +1,7 @@
-Feature: Gram Math
-In order to calculate between grams
+Feature: Metre Math
+In order to calculate between metres
 As a user
-I can add, subtract, multiply and devide between gram measurements
+I can add, subtract, multiply and divide between metre measurements
 
 Scenario: 1 km + 2 km
 Given that I have "1 km"

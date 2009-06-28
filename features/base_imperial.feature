@@ -1,7 +1,7 @@
-Feature: Foot Base
-In order to calculate between feet
+Feature: Imperial Base
+In order to calculate between Imperial lengths
 As a user
-I can define each size of foot in a unit of inches
+I can define each size of length in a unit of inches
 
 Scenario: Find inch in inches
 Given that I have "1 in"

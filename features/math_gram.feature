@@ -1,7 +1,7 @@
 Feature: Gram Math
 In order to calculate between grams
 As a user
-I can add, subtract, multiply and devide between gram measurements
+I can add, subtract, multiply and divide between gram measurements
 
 Scenario: 1 kg + 2 kg
 Given that I have "1 kg"
