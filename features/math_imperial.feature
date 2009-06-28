@@ -52,3 +52,39 @@ When I subtract from it "3 furlongs"
 Then the sum should be "-23758.0 in"
 When I send message "value"
 Then I should have -23758.0
+
+# Mass 
+Scenario: 1.5 lb + 1.5 oz
+Given that I have "1.5 lb"
+When I add it to "1.5 oz"
+Then the sum should be "1.59375 lb"
+When I send message "value"
+Then I should have 25.5
+
+Scenario: 2 st * 1 oz
+Given that I have "2 ft"
+When I multiply it by "1 yd"
+Then the product should be "2 st"
+When I send message "value"
+Then I should have 448.0
+
+Scenario: 2 st * 1 ft
+Given that I have "2 ft"
+When I multiply it by "1 yd"
+Then the product should be "2 st"
+When I send message "value"
+Then I should have 448.0
+#
+#Scenario: 3 ft / 2 yd
+#Given that I have "3 ft"
+#When I divide it by "2 yd"
+#Then the quotient should be "0.5 ft"
+#When I send message "value"
+#Then I should have 6.0
+#
+#Scenario: 2 in - 3 furs
+#Given that I have "2 in"
+#When I subtract from it "3 furlongs"
+#Then the sum should be "-23758.0 in"
+#When I send message "value"
+#Then I should have -23758.0

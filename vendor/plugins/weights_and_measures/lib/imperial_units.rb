@@ -48,6 +48,15 @@ module ImperialUnits
   ]
 
   # Mass 
+
+  def grain
+    Metric.new(self * (1.oz/437.5), [ :grain, self ])
+  end
+
+  def drachm 
+    Metric.new(self * (1.oz/16.0), [ :drachm, self ])
+  end
+
   def oz
     Metric.new(self, [ :oz, self ])
   end
