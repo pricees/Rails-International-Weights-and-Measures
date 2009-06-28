@@ -28,7 +28,17 @@ Given that I have "1.5 yd"
 When I add it to "1.5 ft"
 Then the sum should be "2.0 yd"
 
-Scenario: 1 ft * 1 yd
-Scenario: 1 ft / 2 yd
-Scenario: 1 ft - 1 yd
+Scenario: 2 ft * 1 yd
+Given that I have "2 ft"
+When I multiply it by "1 yd"
+Then the product should be "6.0 ft"
 
+Scenario: 3 ft / 2 yd
+Given that I have "3 ft"
+When I divide it by "2 yd"
+Then the quotient should be "0.5 ft"
+
+Scenario: 2 in - 3 furs
+Given that I have "2 in"
+When I subtract from it "3 furlongs"
+Then the sum should be "-23758.0 in"
