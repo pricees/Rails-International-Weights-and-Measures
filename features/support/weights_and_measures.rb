@@ -3,8 +3,8 @@
 # to_numeric("1.5") == 1.5
 #
 def to_numeric(num)
-  return num if num.is_a?Numeric
-  num = (num =~ /\./) ? num.to_f : num.to_i
+  num = num.to_s
+  num = (num =~ /\./) ? sprintf("%.5f", num).to_f : num.to_i
 end
 #
 # to_metric("1 kg") == 1.kg

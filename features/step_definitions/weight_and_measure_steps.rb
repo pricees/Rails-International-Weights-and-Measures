@@ -19,7 +19,7 @@ Then /^I should have :([^\"]*)$/ do |arg1|
 end
 
 Then /^I should have ([^\"]*)$/ do |arg1|
-  @res.should ==to_numeric(arg1)
+  to_numeric(@res).should ==to_numeric(arg1)
 end
 
 Then /^it should write "([^\"]*)"$/ do |arg1|

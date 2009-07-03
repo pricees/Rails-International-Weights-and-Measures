@@ -49,21 +49,23 @@ module ImperialUnits
 
   # Mass 
 
+  def grain
+    Metric.new(self * (1.lb/7000.0).value, [ :grain, self ])
+  end
+  %w(grains).each { |m| alias_method m.to_sym, :grain }
+
+  def drachm 
+    Metric.new(self * (1.lb/256.0).value, [ :drachm, self ])
+  end
+  %w(drachms).each { |m| alias_method m.to_sym, :drachm }
+
   def oz
-    Metric.new(self, [ :oz, self ])
+    Metric.new(self * (1.lb/16.0).value, [ :oz, self ])
   end
   %w(ounce ounces).each { |m| alias_method m.to_sym, :oz }
 
-  def grain
-    Metric.new(self * (1.oz/437.5).value, [ :grain, self ])
-  end
-
-  def drachm 
-    Metric.new(self * (1.oz/16.0).value, [ :drachm, self ])
-  end
-
   def lb
-    Metric.new(self * 16.oz.value, [ :lb, self ])
+    Metric.new(self, [ :lb, self ])
   end
   %w(lbs pound pounds).each { |m| alias_method m.to_sym, :lb }
 
@@ -89,12 +91,12 @@ module ImperialUnits
 
   # Length 
   def in
-    Metric.new(self, [ :in, self ])
+    Metric.new(self * (1.0/12).ft.value, [ :in, self ])
   end
   %w(inch inches).each { |m| alias_method m.to_sym, :in }
 
   def ft
-    Metric.new(self * 12.in.value, [ :ft, self ])
+    Metric.new(self, [ :ft, self ])
   end
   %w(foot feet).each { |m| alias_method m.to_sym, :ft }
 
@@ -151,7 +153,7 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value + other.value), [ unit, face_value + other.face_value ])
     end
-    Metric.new((value + other.value), [ unit, face_value + (other.value/(value.to_f/face_value)) ])
+    Metric.new((value + base_val(other)), [ unit, face_value + base_val(other) ])
   end
 
   def -(other)
@@ -159,23 +161,34 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value - other.value), [ unit, face_value - other.face_value ])
     end
-    Metric.new((value - other.value), [ unit, face_value - (other.value/(value.to_f/face_value)) ])
+
+    Metric.new((value - base_val(other)), [ unit, face_value - base_val(other) ])
   end
 
   def *(other)
     other = metricize(other,unit) unless other.is_a?Metric
+
     if unit == other.unit
-      return Metric.new((value * other.value), [ unit, face_value * other.face_value ])
+      return Metric.new((value * base_val(other)), [ unit, face_value * other.face_value ])
     end
-    Metric.new((value * other.value/(value.to_f/face_value)), [ unit, face_value * (other.value/(value.to_f/face_value)) ])
+
+    Metric.new((value * base_val(other)), [ unit, face_value * base_val(other) ])
   end
 
   def /(other)
     other = metricize(other,unit) unless other.is_a?Metric
+
     if unit == other.unit
-      return Metric.new((value / other.value), [ unit, face_value / other.face_value ])
+      return Metric.new((value / base_val(other)), [ unit, face_value / other.face_value ])
     end
-    Metric.new(value / (other.value/(value.to_f/face_value)), [ unit, face_value / (other.value/(value.to_f/face_value)) ])
+
+    Metric.new((value / base_val(other)), [ unit, face_value / base_val(other) ])
+
+  end
+
+  def base_val(other)
+    @unit_val ||= 1.send(unit).value
+    other.value.to_f/@unit_val
   end
 
   class Metric
@@ -185,6 +198,7 @@ module ImperialUnits
 
     def unit; @parts.first; end
     def base_unit; BASE.assoc(unit).try(:last); end
+    def base_value; BASE.assoc(unit).try(:last); end
     def face_value; @parts.last; end
     def long; to_s(:long); end
     def to_param; @value; end
