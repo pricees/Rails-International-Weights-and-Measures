@@ -14,5 +14,3 @@ def to_metric(str)
   num, unit = str.split
   to_numeric(num).send(unit.to_sym)
 end
-
-

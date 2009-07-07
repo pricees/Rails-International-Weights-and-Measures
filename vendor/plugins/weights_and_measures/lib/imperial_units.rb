@@ -24,27 +24,27 @@ module ImperialUnits
   ]
 
   BASE = [
-    [ :in, :in ],
-    [ :ft, :in ],
-    [ :yd, :in ],
-    [ :mi, :in ],
-    [ :R, :in ], 
-    [ :fur, :in],
-    [ :link, :in ],
-    [ :pole, :in ],
-    [ :chain, :in ],
-    [ :fathom, :in ],
-    [ :cable, :in ],
-    [ :naut, :in ],
-    [ :league, :in ],
-    [ :grain, :oz ],
-    [ :drachm, :oz ],
-    [ :oz, :oz ],
-    [ :lb, :oz ],
-    [ :st , :oz ],
-    [ :quarter, :oz ],
-    [ :cwt, :oz ],
-    [ :t, :oz ],
+    [ :in, :ft ],
+    [ :ft, :ft ],
+    [ :yd, :ft ],
+    [ :mi, :ft ],
+    [ :R, :ft ], 
+    [ :fur, :ft],
+    [ :link, :ft ],
+    [ :pole, :ft ],
+    [ :chain, :ft ],
+    [ :fathom, :ft ],
+    [ :cable, :ft ],
+    [ :naut, :ft ],
+    [ :league, :ft ],
+    [ :grain, :lb ],
+    [ :drachm, :lb ],
+    [ :oz, :lb ],
+    [ :lb, :lb ],
+    [ :st , :lb ],
+    [ :quarter, :lb ],
+    [ :cwt, :lb ],
+    [ :t, :lb ],
   ]
 
   # Mass 
@@ -153,7 +153,8 @@ module ImperialUnits
     if unit == other.unit
       return Metric.new((value + other.value), [ unit, face_value + other.face_value ])
     end
-    Metric.new((value + base_val(other)), [ unit, face_value + base_val(other) ])
+
+    Metric.new(value + other.value, [ unit, face_value + base_val(other) ])
   end
 
   def -(other)
@@ -162,7 +163,7 @@ module ImperialUnits
       return Metric.new((value - other.value), [ unit, face_value - other.face_value ])
     end
 
-    Metric.new((value - base_val(other)), [ unit, face_value - base_val(other) ])
+    Metric.new(value - other.value, [ unit, face_value - base_val(other) ])
   end
 
   def *(other)

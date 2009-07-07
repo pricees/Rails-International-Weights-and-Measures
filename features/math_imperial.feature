@@ -25,19 +25,26 @@ Then the sum should be "13.0 in"
 When I send message "value"
 Then I should have 1.08333
 
+Scenario: 1.5 ft + 1.5 yd 
+Given that I have "1.5 ft"
+When I add it to "1.5 yd"
+Then the sum should be "6.0 ft"
+When I send message "value"
+Then I should have 6
+
 Scenario: 1.5 yd + 1.5 ft
 Given that I have "1.5 yd"
 When I add it to "1.5 ft"
 Then the sum should be "2.0 yd"
 When I send message "value"
-Then I should have 5
+Then I should have 6
 
 Scenario: 2 ft * 1 yd
 Given that I have "2 ft"
 When I multiply it by "1 yd"
 Then the product should be "6.0 ft"
 When I send message "value"
-Then I should have 72.0
+Then I should have 6.0
 
 Scenario: 3 ft / 2 yd
 Given that I have "3 ft"
@@ -51,7 +58,7 @@ Given that I have "2 in"
 When I subtract from it "3 furlongs"
 Then the sum should be "-23758.0 in"
 When I send message "value"
-Then I should have -23759.83333
+Then I should have -1979.83333
 
 # Mass 
 Scenario: 1.5 lb + 1.5 oz
@@ -64,9 +71,9 @@ Then I should have 1.59375
 Scenario: 2 st * 1 oz
 Given that I have "2 st"
 When I multiply it by "1 oz"
-Then the product should be "0.125 st"
+Then the product should be "0.00892857142857143 st"
 When I send message "value"
-Then I should have 1.75
+Then I should have 0.125
 
 Scenario: 2 st * 1 st
 Given that I have "2 st"
@@ -87,4 +94,4 @@ Given that I have "2 in"
 When I subtract from it "3 furlongs"
 Then the difference should be "-23758.0 in"
 When I send message "value"
-Then I should have -23759.83333
+Then I should have -1979.83333
