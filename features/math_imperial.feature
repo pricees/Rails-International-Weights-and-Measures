@@ -82,16 +82,16 @@ Then the product should be "2 st"
 When I send message "value"
 Then I should have 28
 
-Scenario: 3 ft / 2 yd
-Given that I have "3 ft"
-When I divide it by "2 yd"
-Then the quotient should be "0.5 ft"
+Scenario: 16 oz / 1 oz
+Given that I have "16 oz"
+When I divide it by "1 oz"
+Then the quotient should be "16 oz"
 When I send message "value"
-Then I should have 0.5
+Then I should have 1
 
-Scenario: 2 in - 3 furs
-Given that I have "2 in"
-When I subtract from it "3 furlongs"
-Then the difference should be "-23758.0 in"
+Scenario: 1 oz - 1 lb
+Given that I have "1 oz"
+When I subtract from it "1 lb"
+Then the difference should be "-15.0 oz"
 When I send message "value"
-Then I should have -1979.83333
+Then I should have -0.9375
