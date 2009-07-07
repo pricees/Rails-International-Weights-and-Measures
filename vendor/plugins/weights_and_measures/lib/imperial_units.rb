@@ -146,6 +146,16 @@ module ImperialUnits
     Metric.new(self * 3.my.value, [ :league, self ])
   end
 
+  def to_g
+    val = value * Conversions::CONVERSIONS[ [base_unit, :g ]]
+    StandardUnits::Metric.new(val , [ :g, val ])
+  end
+
+  def to_m
+    val = value * Conversions::CONVERSIONS[ [base_unit, :m ]]
+    StandardUnits::Metric.new(val , [ :m, val ])
+  end
+
   # Math functions
 
   def +(other)
